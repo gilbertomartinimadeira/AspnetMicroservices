@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  catalog.api:
+    image: gilmartmd/catalog_api
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+      - "8080"

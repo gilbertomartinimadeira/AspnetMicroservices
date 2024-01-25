@@ -17,6 +17,10 @@ COPY --from=build /app/out .
 
 # Expose the port the app will run on
 EXPOSE 80
+EXPOSE 8080
+
+#Set environment
+ENV ASPNETCORE_ENVIRONMENT=Development
 
 # Command to run the application
-CMD ["dotnet", "Catalog.Api.dll"]
+CMD ["dotnet", "Catalog.API.dll"]

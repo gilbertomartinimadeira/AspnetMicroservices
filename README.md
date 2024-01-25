@@ -44,3 +44,16 @@ db.Products.remove({})
 
 deleteOne
 deleteMany
+
+nuget pagackes:
+
+	MongoDB.Driver
+	Swashbuckle.AspNetcore
+
+
+
+
+
+docker build -t gilmartmd/catalog_api .
+
+docker run -p 8080:80 gilmartmd/catalog_api

@@ -77,7 +77,8 @@ public class CatalogController : ControllerBase
         return Ok(await _productRepository.DeleteProduct(id));
     }
 
-    
+    [HttpGet("ping")]
+    public string Ping() => "PING OK";
 
 
 
