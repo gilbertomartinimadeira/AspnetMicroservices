@@ -1,13 +1,27 @@
 version: '3.4'
 
 services:
+  catalogdb:
+    image: mongo
+    container_name: catalogdb
+    restart: always
+    ports:
+      - "27017"  
+    volumes:
+      - mongo_data:/data/db
+
   catalog.api:
+    container_name: catalog.api
     image: gilmartmd/catalog_api
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
     environment:
     - ASPNETCORE_ENVIRONMENT=Development
+    - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
     ports:
-      - "80"
-      - "8080"
+      - "8000:8080"    
+    depends_on:
+      - catalogdb
+volumes:
+  mongo_data:
