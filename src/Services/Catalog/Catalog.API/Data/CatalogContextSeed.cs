@@ -14,8 +14,6 @@ public class CatalogContextSeed
         {
             productCollection.InsertManyAsync(GetPreconfiguredProducts());
         }
-
-
     }
 
     private static IEnumerable<Product> GetPreconfiguredProducts()
