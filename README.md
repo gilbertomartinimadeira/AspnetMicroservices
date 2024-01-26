@@ -57,3 +57,7 @@ nuget pagackes:
 docker build -t gilmartmd/catalog_api .
 
 docker run -p 8080:80 gilmartmd/catalog_api
+
+docker compose up -d
+
+docker container stop $(docker container list -aq)
