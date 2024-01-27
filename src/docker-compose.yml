@@ -10,6 +10,14 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  basketdb:
+    container_name: basketdb
+    restart: always
+    image: redis/redis-stack
+    ports:
+      - 6379:6379
+      - 8001:8001  
+
   catalog.api:
     container_name: catalog.api
     image: gilmartmd/catalog_api
@@ -20,8 +28,22 @@ services:
     - ASPNETCORE_ENVIRONMENT=Development
     - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
     ports:
-      - "8000:8080"    
+      - "8080:8080"    
     depends_on:
-      - catalogdb
+      - catalogdb  
+  
+  basket.api:
+    container_name: basket.api
+    image: gilmartmd/basket_api
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - "CacheSettings:ConnectionString=basketdb:6379"
+    depends_on:
+    - basketdb
+    ports:
+    - "8081:8080"
 volumes:
   mongo_data:

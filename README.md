@@ -61,3 +61,24 @@ docker run -p 8080:80 gilmartmd/catalog_api
 docker compose up -d
 
 docker container stop $(docker container list -aq)
+
+#Segunda API
+
+dotnet new webapi --use-controllers -o Basket.API
+
+dotnet sln add Services/Basket/Basket.API/Basket.API.csproj
+
+docker run -p 6379:6379 -p 8001:8001 --name aspnetrun-redis redis/redis-stack
+
+docker exec -it <cid> /bin/bash
+
+cd /data && redis-cli
+
+ping
+
+dotnet add package Microsoft.Extensions.Caching.StackExchangeRedis --version 8.0.1
+
+dotnet add package Newtonsoft.Json --version 13.0.3
+
+
+
