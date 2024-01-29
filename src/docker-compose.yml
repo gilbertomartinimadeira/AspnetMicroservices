@@ -18,6 +18,42 @@ services:
       - 6379:6379
       - 8001:8001  
 
+  discountdb:
+    container_name: discountdb
+    environment:
+    - POSTGRES_USER=admin 
+    - POSTGRES_PASSWORD=admin1234
+    - POSTGRES_DB=DiscountDb
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@aspnetrun.com
+      - PGADMIN_DEFAULT_PASSWORD=admin1234
+    restart: always
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
+
+
   catalog.api:
     container_name: catalog.api
     image: gilmartmd/catalog_api
@@ -47,3 +83,6 @@ services:
     - "8081:8080"
 volumes:
   mongo_data:
+  portainer_data:
+  postgres_data:
+  pgadmin_data:
