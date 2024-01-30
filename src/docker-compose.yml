@@ -30,6 +30,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+      
   portainer:
     image: portainer/portainer
     container_name: portainer
@@ -81,6 +82,20 @@ services:
     - basketdb
     ports:
     - "8081:8080"
+  
+  discount.api:
+      container_name: discount.api
+      image: gilmartmd/discount_api
+      build:
+        context: .
+        dockerfile: Services/Discount/Discount.API/Dockerfile
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=admin1234"
+      depends_on:
+      - discountdb
+      ports:
+      - "8082:8080"
 volumes:
   mongo_data:
   portainer_data:
