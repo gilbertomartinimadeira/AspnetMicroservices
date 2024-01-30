@@ -42,9 +42,9 @@ namespace Discount.API.Extensions
 
                     command.CommandText =@"INSERT INTO Coupon (ProductName, Description, Amount) 
                                             VALUES ('IphoneX', 'IPhone Discount', 100)";
-
+                    command.ExecuteNonQuery();
                     command.CommandText =@"INSERT INTO Coupon (ProductName, Description, Amount) 
-                                            VALUES ('IphoneX', 'IPhone Discount', 230)";
+                                            VALUES ('SamsungGalaxyS22', 'Samsung Discount', 230)";
 
                     logger.LogInformation("Seeding coupon table...");
                     

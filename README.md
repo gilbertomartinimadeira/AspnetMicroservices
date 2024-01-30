@@ -81,4 +81,15 @@ dotnet add package Microsoft.Extensions.Caching.StackExchangeRedis --version 8.0
 dotnet add package Newtonsoft.Json --version 13.0.3
 
 
+dotnet new webapi --use-controllers -o Discount.API
+
+dotnet add package Npgsql --version 8.0.1
+
+dotnet add package Dapper --version 2.1.28
+
+
+
+
+
+
 
