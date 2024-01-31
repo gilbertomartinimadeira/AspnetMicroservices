@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "protobuf-compile",
+        "command": "protoc",
+        "args": [
+          "--csharp_out=.",
+          "--grpc_out=.",
+          "--plugin=protoc-gen-grpc=`which grpc_csharp_plugin`",
+          "discount.proto"
+        ],
+        "type": "shell"
+      }
+    ]
+  }

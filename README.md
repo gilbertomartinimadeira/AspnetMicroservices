@@ -89,6 +89,21 @@ dotnet add package Dapper --version 2.1.28
 
 
 
+dotnet new grpc -o Discount.Grpc
+
+sudo apt-get install protobuf-compiler
+
+dotnet add package Grpc.Tools
+
+
+# Este elemento é o responsável por emitir a classe C# baseada nas intruções do protobuff (discount.proto)
+ <ItemGroup>
+   <Protobuf Include="Protos\discount.proto" GrpcServices="Server" />
+ </ItemGroup>
+  
+  
+
+
 
 
 
