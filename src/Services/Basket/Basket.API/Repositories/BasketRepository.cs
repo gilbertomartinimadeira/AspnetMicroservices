@@ -19,15 +19,19 @@ namespace Basket.API.Repositories
 
             if(String.IsNullOrEmpty(basket)) return null;
 
+#pragma warning disable CS8603 // Possível retorno de referência nula.
             return JsonConvert.DeserializeObject<ShoppingCart>(basket);
+#pragma warning restore CS8603 // Possível retorno de referência nula.
 
         }
 
 
         public async Task<ShoppingCart> UpdateBasket(ShoppingCart basket)
         {
+#pragma warning disable CS8604 // Possível argumento de referência nula.
             await _redisCache.SetStringAsync(basket.UserName, JsonConvert.SerializeObject(basket));
-            
+#pragma warning restore CS8604 // Possível argumento de referência nula.
+
             return await GetBasket(basket.UserName);
         }
     

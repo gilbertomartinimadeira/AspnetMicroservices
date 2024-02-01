@@ -1,4 +1,6 @@
+using Basket.API.GrpcServices;
 using Basket.API.Repositories;
+using Discount.Grpc.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,19 @@ builder.Services.AddStackExchangeRedisCache(options => {
 
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options => 
+    options.Address = new Uri(configuration["GrpcSettings:DiscountUrl"])
+)
+    .ConfigurePrimaryHttpMessageHandler(() =>
+    {
+        var handler = new HttpClientHandler();
+        handler.ServerCertificateCustomValidationCallback =
+            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+        return handler;
+    });;
+builder.Services.AddScoped<DiscountGrpcService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,11 +39,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}else {
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
 }
 
-app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
 app.MapControllers();
 

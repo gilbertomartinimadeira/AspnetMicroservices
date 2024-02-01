@@ -104,6 +104,17 @@ dotnet add package Grpc.Tools
   
 
 
+sudo -E dotnet dev-certs https -ep /usr/local/share/ca-certificates/aspnet/https.crt --format PEM
+
+dotnet add package Grpc.AspNetCore
+
+
+#incluir o servico grpc no client (API que vai consumir o Grpc)
+<ItemGroup>
+    <Protobuf Include="..\..\Discount\Discount.Grpc\Protos\discount.proto" GrpcServices="Client">
+      <Link>Protos\discount.proto</Link>
+    </Protobuf>
+  </ItemGroup>
 
 
 
