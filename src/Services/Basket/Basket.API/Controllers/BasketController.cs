@@ -1,7 +1,7 @@
 using System.Net;
 using Basket.API.Entities;
-using Basket.API.GrpcServices;
 using Basket.API.Repositories;
+using Discount.Grpc.Protos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers
@@ -10,14 +10,13 @@ namespace Basket.API.Controllers
     [Route("api/v1/[controller]")]
     public class BasketController : ControllerBase
     {
+        private readonly IBasketRepository _basketRepository;    
+        private readonly DiscountProtoService.DiscountProtoServiceClient _client;
 
-        private readonly IBasketRepository _basketRepository;
-        private readonly DiscountGrpcService _discountGprcService;
-
-        public BasketController(IBasketRepository basketRepository, DiscountGrpcService discountGprcService)
+        public BasketController(IBasketRepository basketRepository, DiscountProtoService.DiscountProtoServiceClient client)
         {
             _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
-            _discountGprcService = discountGprcService ?? throw new ArgumentNullException(nameof(discountGprcService));
+            _client = client;
         }
 
         [HttpGet("{username}", Name="GetBasket")]
@@ -25,6 +24,7 @@ namespace Basket.API.Controllers
         public async Task<ActionResult<ShoppingCart>> GetBasket(string username)
         {
             var basket = await _basketRepository.GetBasket(username);
+        
 
             if(basket == null) return NoContent();
             return Ok(basket);
@@ -35,11 +35,14 @@ namespace Basket.API.Controllers
         public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
         {
             //TODO: Communicate with Discount.Grpc 
+            
+
             // Calculate latest prices for products inside the shopping cart
             // consume Discount Gppc
             foreach (var item in basket.Items)
             {
-                var coupon = await _discountGprcService.GetDiscount(item.ProductName);
+
+                var coupon =  _client.GetDiscount(new GetDiscountRequest{ ProductName= item.ProductName} );
                 item.Price -= coupon.Amount;
             }
         

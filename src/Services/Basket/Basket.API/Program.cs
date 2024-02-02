@@ -1,4 +1,4 @@
-using Basket.API.GrpcServices;
+
 using Basket.API.Repositories;
 using Discount.Grpc.Protos;
 
@@ -19,20 +19,13 @@ builder.Services.AddStackExchangeRedisCache(options => {
 
 builder.Services.AddScoped<IBasketRepository,BasketRepository>();
 
-builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options => 
-    options.Address = new Uri(configuration["GrpcSettings:DiscountUrl"])
-)
-    .ConfigurePrimaryHttpMessageHandler(() =>
-    {
-        var handler = new HttpClientHandler();
-        handler.ServerCertificateCustomValidationCallback =
-            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>( o =>{
+    o.Address= new Uri("http://localhost:5287");
+});
 
-        return handler;
-    });;
-builder.Services.AddScoped<DiscountGrpcService>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

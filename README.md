@@ -119,3 +119,24 @@ dotnet add package Grpc.AspNetCore
 
 
 
+
+
+#Rodar só o PG
+docker run -d \
+    --name discountdb \
+    -e POSTGRES_USER=admin \
+    -e POSTGRES_PASSWORD=admin1234 \
+    -e POSTGRES_DB=DiscountDb \
+    -p 5432:5432 \
+    --restart always \
+    -v postgres_data:/var/lib/postgresql/data \
+    postgres
+
+
+docker run -d \
+    --name basketdb \
+    --restart always \
+    -p 6379:6379 \
+    -p 8001:8001 \
+    redis/redis-stack
+	
