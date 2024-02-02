@@ -1,6 +1,6 @@
 
 using Basket.API.Repositories;
-using Discount.Grpc.Protos;
+using Discount.Grpc.Protos.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 

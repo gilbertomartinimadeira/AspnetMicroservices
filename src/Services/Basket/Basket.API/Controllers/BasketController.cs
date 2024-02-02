@@ -1,7 +1,7 @@
 using System.Net;
 using Basket.API.Entities;
 using Basket.API.Repositories;
-using Discount.Grpc.Protos;
+using Discount.Grpc.Protos.Client;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers

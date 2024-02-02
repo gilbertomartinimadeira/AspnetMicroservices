@@ -81,7 +81,7 @@ services:
     depends_on:
     - basketdb
     ports:
-    - "8081:8080"
+    - "8081:8080"    
   
   discount.api:
       container_name: discount.api
@@ -96,6 +96,20 @@ services:
       - discountdb
       ports:
       - "8082:8080"
+
+  discount.grpc:
+      container_name: discount.grpc
+      image: gilmartmd/discount_grpc
+      build:
+        context: .
+        dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+      environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=admin1234"
+      depends_on:
+      - discountdb
+      ports:
+      - "8083:8080"
 volumes:
   mongo_data:
   portainer_data:
