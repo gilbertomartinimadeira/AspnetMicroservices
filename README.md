@@ -119,8 +119,6 @@ dotnet add package Grpc.AspNetCore
 
 
 
-
-
 #Rodar só o PG
 docker run -d \
     --name discountdb \
@@ -132,7 +130,7 @@ docker run -d \
     -v postgres_data:/var/lib/postgresql/data \
     postgres
 
-
+#rodar só o REDIS
 docker run -d \
     --name basketdb \
     --restart always \
@@ -140,3 +138,11 @@ docker run -d \
     -p 8001:8001 \
     redis/redis-stack
 	
+
+docker run -d \
+  --name pgadmin \
+  -e PGADMIN_DEFAULT_EMAIL=admin@aspnetrun.com \
+  -e PGADMIN_DEFAULT_PASSWORD=admin1234 \
+  -p 5050:80 \
+  -v pgadmin_data:/root/.pgadmin \
+  dpage/pgadmin4	

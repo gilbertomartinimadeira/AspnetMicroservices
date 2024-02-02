@@ -5,11 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C#: Basket Debug",
+            "name": "DiscountGrpc",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/Services/Discount/Discount.Grpc/Discount.Grpc.csproj"
+        },
+        {
+            "name": "BasketAPI",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/src/Services/Basket/Basket.API/Basket.API.csproj"
         }
 
+    ],
+    "compounds": [
+        {
+            "name": "BasketGrpc",
+            "configurations": ["DiscountGrpc", "BasketAPI"]
+        }
     ]
 }
