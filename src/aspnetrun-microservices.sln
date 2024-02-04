@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.API", "Services\Discount\Discount.API\Discount.API.csproj", "{77E630A1-C407-404D-8B95-92694812B817}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Grpc", "Services\Discount\Discount.Grpc\Discount.Grpc.csproj", "{CB20CBE6-9269-4CE3-9A07-9DA71E2B8E58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{4255413C-4E73-4DE3-BECB-FA0227972E80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,7 @@ Global
 		{CB20CBE6-9269-4CE3-9A07-9DA71E2B8E58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{4255413C-4E73-4DE3-BECB-FA0227972E80} = {B7F63A89-3F1E-4FE3-A0BB-FA9735301220}
 		{3965E389-986C-4006-B47A-E2C576D967E4} = {B7F63A89-3F1E-4FE3-A0BB-FA9735301220}
 		{3BAFEB45-86E3-433D-8EBC-D503D13D0623} = {3965E389-986C-4006-B47A-E2C576D967E4}
 		{C3B61BBC-7F0B-4D67-AAD7-7804275CAEBE} = {B7F63A89-3F1E-4FE3-A0BB-FA9735301220}
