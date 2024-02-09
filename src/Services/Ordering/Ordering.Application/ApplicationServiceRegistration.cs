@@ -4,25 +4,25 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Ordering.Application.Behaviours;
 
-namespace Ordering.Application;
-
-public static class ApplicationServiceRegistration
+namespace Ordering.Application
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+
+    public static class ApplicationServiceRegistration
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
 
-        services.AddAutoMapper(assembly);
-        services.AddValidatorsFromAssembly(assembly);    
-        services.AddMediatR(assembly);
+            services.AddAutoMapper(assembly);
+            services.AddValidatorsFromAssembly(assembly);
+            services.AddMediatR(assembly);
 
-        services.AddTransient(typeof(IPipelineBehavior<,>),typeof(UnhandledExceptionBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationBehaviour<,>));
-
-
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
 
-
-        return services;
+            return services;
+        }
     }
+
 }
