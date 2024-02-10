@@ -145,4 +145,15 @@ docker run -d \
   -e PGADMIN_DEFAULT_PASSWORD=admin1234 \
   -p 5050:80 \
   -v pgadmin_data:/root/.pgadmin \
-  dpage/pgadmin4	
+  dpage/pgadmin4
+  
+# ON API PRoJECT  ...
+  dotnet ef migrations add Initial --project ../Ordering.Infrastructure/Ordering.Infrastructure.csproj 	
+
+docker run -d \
+  --name orderdb \
+  -e ACCEPT_EULA=Y \
+  -e MSSQL_SA_PASSWORD=Admin1234 \
+  -p 1433:1433 \
+  --restart always \
+  mcr.microsoft.com/mssql/server:2019-latest

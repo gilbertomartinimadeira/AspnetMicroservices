@@ -5,30 +5,39 @@ using Ordering.Domain.Entities;
 namespace Ordering.Infrastructure.Persistence;
 
 public class OrderContext : DbContext
+{
+    public OrderContext(DbContextOptions<OrderContext> options) : base(options)
     {
-        public OrderContext(DbContextOptions<OrderContext> options) : base(options)
-        {
-        }
-
-        public DbSet<Order> Orders { get; set; }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            foreach (var entry in ChangeTracker.Entries<EntityBase>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.Entity.CreatedDate = DateTime.Now;
-                        entry.Entity.CreatedBy = "swn";
-                        break;
-                    case EntityState.Modified:
-                        entry.Entity.LastModifiedDate = DateTime.Now;
-                        entry.Entity.LastModifiedBy = "swn";
-                        break;
-                }
-            }
-
-            return base.SaveChangesAsync(cancellationToken);
-        }
     }
+
+    public DbSet<Order> Orders { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Other configurations...
+
+        modelBuilder.Entity<Order>()
+            .Property(o => o.TotalPrice)
+            .HasColumnType("decimal(18,2)"); // Adjust precision and scale based on your requirements
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        foreach (var entry in ChangeTracker.Entries<EntityBase>())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.Entity.CreatedDate = DateTime.Now;
+                    entry.Entity.CreatedBy = "swn";
+                    break;
+                case EntityState.Modified:
+                    entry.Entity.LastModifiedDate = DateTime.Now;
+                    entry.Entity.LastModifiedBy = "swn";
+                    break;
+            }
+        }
+
+        return base.SaveChangesAsync(cancellationToken);
+    }
+}

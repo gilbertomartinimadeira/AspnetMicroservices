@@ -30,6 +30,16 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
+  orderdb:
+    container_name: orderdb
+    image: mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Admin1234
+    restart: always
+    ports: 
+      - "1433:1433"
       
   portainer:
     image: portainer/portainer
@@ -96,6 +106,7 @@ services:
       - discountdb
       ports:
       - "8082:8080"
+    
 
   discount.grpc:
       container_name: discount.grpc
@@ -110,6 +121,19 @@ services:
       - discountdb
       ports:
       - "8083:8080"      
+  ordering.api:
+    container_name: ordering.api
+    image: gilmartmd/order_api
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - "DatabaseSettings:ConnectionString=Server=orderdb;Port=1433;Database=OrderDb;User Id=sa;Password=SwN12345678"    
+    depends_on:
+    - orderdb
+    ports:
+    - "8084:8080"
 
 volumes:
   mongo_data:
