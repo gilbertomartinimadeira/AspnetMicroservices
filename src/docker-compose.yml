@@ -121,23 +121,30 @@ services:
       - discountdb
       ports:
       - "8083:8080"      
-  ordering.api:
-    container_name: ordering.api
-    image: gilmartmd/order_api
-    build:
-      context: .
-      dockerfile: Services/Ordering/Ordering.API/Dockerfile
-    environment:
-    - ASPNETCORE_ENVIRONMENT=Development
-    - "DatabaseSettings:ConnectionString=Server=orderdb;Port=1433;Database=OrderDb;User Id=sa;Password=SwN12345678"    
-    depends_on:
-    - orderdb
-    ports:
-    - "8084:8080"
+  # ordering.api:
+  #   container_name: ordering.api
+  #   image: gilmartmd/order_api
+  #   build:
+  #     context: .
+  #     dockerfile: Services/Ordering/Ordering.API/Dockerfile
+  #   environment:
+  #   - ASPNETCORE_ENVIRONMENT=Development
+  #   - "DatabaseSettings:ConnectionString=Server=orderdb;Port=1433;Database=OrderDb;User Id=sa;Password=SwN12345678"    
+  #   depends_on:
+  #   - orderdb
+  #   ports:
+  #   - "8084:8080"
 
   rabbitmq:
     image:  rabbitmq:3-management-alpine
-
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
 
 volumes:
   mongo_data:
