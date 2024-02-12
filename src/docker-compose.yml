@@ -135,6 +135,10 @@ services:
     ports:
     - "8084:8080"
 
+  rabbitmq:
+    image:  rabbitmq:3-management-alpine
+
+
 volumes:
   mongo_data:
   portainer_data:

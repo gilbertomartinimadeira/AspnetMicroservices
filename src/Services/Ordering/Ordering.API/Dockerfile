@@ -1,26 +1,25 @@
-# Use the official .NET SDK image as a build image
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-
-# Copy the project file and restore dependencies
-COPY *.csproj .
-RUN dotnet restore
-
-# Copy the remaining files and build the application
-COPY . .
-RUN dotnet publish -c Release -o out
-
-# Use the official ASP.NET runtime image as a runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
-WORKDIR /app
-COPY --from=build /app/out .
-
-# Expose the port the app will run on
 EXPOSE 80
-EXPOSE 8080
 
-#Set environment
-ENV ASPNETCORE_ENVIRONMENT=Development
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["Services/Ordering/Ordering.API/Ordering.API.csproj", "Services/Ordering/Ordering.API/"]
+COPY ["Services/Ordering/Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ordering.Application/"]
+COPY ["Services/Ordering/Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
+COPY ["Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
+RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
+COPY . .
+WORKDIR "/src/Services/Ordering/Ordering.API"
+RUN dotnet build "Ordering.API.csproj" -c Release -o /app/build
 
-# Command to run the application
-CMD ["dotnet", "Ordering.API.dll"]
+FROM build AS publish
+RUN dotnet publish "Ordering.API.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Ordering.API.dll"]
