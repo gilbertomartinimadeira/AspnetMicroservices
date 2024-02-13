@@ -3,6 +3,8 @@ using AutoMapper;
 using Basket.API.Entities;
 using Basket.API.Repositories;
 using EventBus.Messages.Events;
+using MassTransit;
+
 
 //using Discount.Grpc.Protos.Client;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,7 @@ namespace Basket.API.Controllers
     {
         private readonly IBasketRepository _basketRepository;    
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
         //private readonly DiscountProtoService.DiscountProtoServiceClient _client;
 
 
@@ -25,10 +28,11 @@ namespace Basket.API.Controllers
         //     //_client = client;
         // }
 
-        public BasketController(IBasketRepository basketRepository, IMapper mapper)
+        public BasketController(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _basketRepository = basketRepository;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet("{username}", Name="GetBasket")]
@@ -78,11 +82,12 @@ namespace Basket.API.Controllers
             if(basket == null) return NotFound();
 
             //TOOD: Create BasketCheckoutEvent -- Set TotalPrice on basketcheckout eventmessage
+            var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
+            eventMessage.TotalPrice = basket.TotalPrice;
+
+            //TODO: Send Checkout event to rabbitmq                    
+            await _publishEndpoint.Publish(eventMessage);
             
-
-            //TODO: Send Checkout event to rabbitmq
-
-
             //TODO: remove the basket
             await _basketRepository.DeleteBasket(basket.UserName);
 
