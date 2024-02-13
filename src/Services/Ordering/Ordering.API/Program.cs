@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using Ordering.API.Extensions;
 using Ordering.Application;

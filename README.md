@@ -156,4 +156,15 @@ docker run -d \
   -e MSSQL_SA_PASSWORD=Admin1234 \
   -p 1433:1433 \
   --restart always \
-  mcr.microsoft.com/mssql/server:2019-latest
+  mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+  
+  docker run -d \
+  --name rabbitmq \
+  --restart always \
+  -p 5672:5672 \
+  -p 15672:15672 \
+  -e RABBITMQ_DEFAULT_USER=admin \
+  -e RABBITMQ_DEFAULT_PASS=admin \
+  rabbitmq:3-management-alpine
+  
+  
