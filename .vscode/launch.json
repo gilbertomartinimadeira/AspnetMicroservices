@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "OrderingAPI",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/Services/Ordering/Ordering.API/Ordering.API.csproj"
+        },
+        {
             "name": "DiscountGrpc",
             "type": "dotnet",
             "request": "launch",
@@ -15,13 +21,18 @@
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/src/Services/Basket/Basket.API/Basket.API.csproj"
-        }
+        },
+
 
     ],
     "compounds": [
         {
             "name": "BasketGrpc",
             "configurations": ["DiscountGrpc", "BasketAPI"]
+        },
+        {
+            "name":"OrderFromBasketMQ",
+            "configurations": ["OrderingAPI", "BasketAPI"]
         }
     ]
 }
