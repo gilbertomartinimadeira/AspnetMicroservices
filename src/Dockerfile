@@ -1,25 +1,26 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
+EXPOSE 8080
+#Set environment
+ENV ASPNETCORE_ENVIRONMENT=Development
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY Services/Ordering/Ordering.API/Ordering.API.csproj Services/Ordering/Ordering.API/
-COPY Services/Ordering/Ordering.Application/Ordering.Application.csproj Services/Ordering/Ordering.Application/
-COPY Services/Ordering/Ordering.Domain/Ordering.Domain.csproj Services/Ordering/Ordering.Domain/
-COPY Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj Services/Ordering/Ordering.Infrastructure/
+COPY Services/Basket/Basket.API/Basket.API.csproj Services/Basket/Basket.API/
 COPY BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj BuildingBlocks/EventBus.Messages/
-RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
+
+RUN dotnet restore Services/Basket/Basket.API/Basket.API.csproj
+# Copy the remaining files and build the application
 COPY . .
-WORKDIR "/src/Services/Ordering/Ordering.API"
-RUN dotnet build "Ordering.API.csproj" -c Release -o /app/build
+WORKDIR "/src/Services/Basket/Basket.API"
+RUN dotnet build "Basket.API.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "Ordering.API.csproj" -c Release -o /app/publish
+FROM build as publish
+RUN dotnet publish "Basket.API.csproj" -c Release -o /app/publish
 
+# Use the official ASP.NET runtime image as a runtime image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ordering.API.dll"]
+ENTRYPOINT ["dotnet", "Basket.API.dll"]
