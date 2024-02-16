@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -32,6 +32,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{05ECC9CB-666A-4A83-92ED-41652356B0BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Messages", "BuildingBlocks\EventBus.Messages\EventBus.Messages.csproj", "{AD4A123D-9943-426A-B3BD-3C0B49DE9B1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{2D0A2C55-8421-4E05-B703-53ADE34BAC04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "ApiGateways\OcelotApiGateway\OcelotApiGateway.csproj", "{8EA3C313-DA8E-4ED8-853C-0F86E0892D7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +82,10 @@ Global
 		{AD4A123D-9943-426A-B3BD-3C0B49DE9B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4A123D-9943-426A-B3BD-3C0B49DE9B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD4A123D-9943-426A-B3BD-3C0B49DE9B1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EA3C313-DA8E-4ED8-853C-0F86E0892D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EA3C313-DA8E-4ED8-853C-0F86E0892D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EA3C313-DA8E-4ED8-853C-0F86E0892D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EA3C313-DA8E-4ED8-853C-0F86E0892D7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4255413C-4E73-4DE3-BECB-FA0227972E80} = {B7F63A89-3F1E-4FE3-A0BB-FA9735301220}
@@ -93,5 +101,6 @@ Global
 		{D74C8667-9BE1-4274-966F-D5E49048E778} = {4255413C-4E73-4DE3-BECB-FA0227972E80}
 		{E7986726-57D0-468A-AE2A-8044965BE343} = {4255413C-4E73-4DE3-BECB-FA0227972E80}
 		{AD4A123D-9943-426A-B3BD-3C0B49DE9B1D} = {05ECC9CB-666A-4A83-92ED-41652356B0BA}
+		{8EA3C313-DA8E-4ED8-853C-0F86E0892D7D} = {2D0A2C55-8421-4E05-B703-53ADE34BAC04}
 	EndGlobalSection
 EndGlobal

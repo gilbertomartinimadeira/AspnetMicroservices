@@ -168,3 +168,6 @@ docker run -d \
   rabbitmq:3-management-alpine
   
   
+  dotnet add package Ocelot
+  
+  
